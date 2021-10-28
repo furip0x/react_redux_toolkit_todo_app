@@ -304,6 +304,11 @@ code {
   margin: 2rem 0;
 }
 
+.todo-list.edit-mode-on .todo-item:not(.editing-item) {
+  pointer-events: none;
+  filter: blur(2px) opacity(0.5);
+}
+
 .todo-item {
   display: flex;
   align-items: center;

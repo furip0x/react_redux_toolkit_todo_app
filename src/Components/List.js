@@ -13,6 +13,7 @@ const List = () => {
   const list = useSelector((state) => state.todos.todoList)
 
   const [editInputName, setEditInputName] = useState('')
+  const [isEdit, setisEdit] = useState(false)
 
   const deleteItem = (id) => {
     dispatch(deleteTodo(id))
@@ -36,6 +37,7 @@ const List = () => {
         })
       )
       setEditInputName('')
+      setisEdit(false)
     } else {
       dispatch(
         showAlert({
@@ -47,13 +49,21 @@ const List = () => {
     }
   }
 
+  const setEditing = (id, title) => {
+    setisEdit((prev) => !prev)
+    setEditInputName(title)
+    dispatch(toggleEdit(id))
+  }
+
   return (
-    <div className='todo-list'>
+    <div className={`todo-list ${isEdit && 'edit-mode-on'}`}>
       {list.map((todo) => {
         return (
           <div
             key={todo.id}
-            className={`todo-item ${todo.checked && 'checked'}`}
+            className={`todo-item ${todo.checked && 'checked'} ${
+              todo.editing && 'editing-item'
+            }`}
           >
             {todo.editing ? (
               <div className='todo-edit-input'>
@@ -104,7 +114,7 @@ const List = () => {
                   <button
                     type='button'
                     className='todo-item-cancel-edit'
-                    onClick={() => dispatch(toggleEdit(todo.id))}
+                    onClick={() => setEditing(todo.id)}
                   >
                     &times;
                   </button>
@@ -114,7 +124,7 @@ const List = () => {
                   <button
                     type='button'
                     className={`todo-item-edit ${todo.checked && 'hidden'}`}
-                    onClick={() => dispatch(toggleEdit(todo.id))}
+                    onClick={() => setEditing(todo.id, todo.title)}
                   >
                     <svg
                       stroke='currentColor'
