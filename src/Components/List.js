@@ -56,12 +56,13 @@ const List = () => {
             className={`todo-item ${todo.checked && 'checked'}`}
           >
             {todo.editing ? (
-              <input
-                type='text'
-                className='todo-item-input'
-                value={editInputName}
-                onChange={(e) => setEditInputName(e.target.value)}
-              />
+              <div className='todo-edit-input'>
+                <input
+                  type='text'
+                  value={editInputName}
+                  onChange={(e) => setEditInputName(e.target.value)}
+                />
+              </div>
             ) : (
               <>
                 <button
@@ -92,13 +93,22 @@ const List = () => {
 
             <div className='todo-item-buttons'>
               {todo.editing ? (
-                <button
-                  type='button'
-                  className='todo-item-submit'
-                  onClick={() => editItemTitle(todo.id)}
-                >
-                  Update
-                </button>
+                <>
+                  <button
+                    type='button'
+                    className='todo-item-submit'
+                    onClick={() => editItemTitle(todo.id)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    type='button'
+                    className='todo-item-cancel-edit'
+                    onClick={() => dispatch(toggleEdit(todo.id))}
+                  >
+                    &times;
+                  </button>
+                </>
               ) : (
                 <>
                   <button
