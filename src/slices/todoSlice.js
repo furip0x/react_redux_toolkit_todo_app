@@ -55,7 +55,7 @@ const todoSlice = createSlice({
           if (todo.id === action.payload) {
             return { ...todo, editing: !todo.editing }
           }
-          return todo
+          return { ...todo, editing: false }
         }),
       }
     },
